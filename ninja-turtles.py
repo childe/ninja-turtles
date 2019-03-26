@@ -223,12 +223,9 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        maze.print_maze()
+        # maze.print_maze()
         pass
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        pass
+    main()
