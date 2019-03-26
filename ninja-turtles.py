@@ -163,13 +163,15 @@ class Maze(object):
     def resolved(self):
         return self.array == self.target
 
-    def print_maze(self):
+    def print_maze(self, msg=''):
         self.window.erase()
         self.window.addstr('steps: {}\n\n'.format(self.steps))
 
         for i in range(3):
             self.window.addstr(' '.join(self.array[i*3:i*3+3])+'\n')
 
+        if msg:
+            self.window.addstr(msg)
         self.window.refresh()
 
     def run(self):
@@ -223,8 +225,8 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
-        # maze.print_maze()
-        pass
+        msg = 'PASS\n' if r else None
+        maze.print_maze(msg)
 
 
 if __name__ == '__main__':
