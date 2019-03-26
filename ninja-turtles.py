@@ -6,6 +6,7 @@ import curses
 import random
 import argparse
 
+
 class MazeSolution(object):
 
     def __init__(self, array, anchor):
@@ -62,6 +63,7 @@ class MazeSolution(object):
         stack.append((self.array[:], self.anchor, pathes))
         visited.add(tuple(self.array[:]))
 
+        ds = ('UP', 'LEFT', 'RIGHT', 'DOWN')
         directions = (self.up,  self.left, self.right, self.down)
 
         count = 0
@@ -76,7 +78,7 @@ class MazeSolution(object):
                 if new_array is None:
                     continue
                 if new_array == self.target:
-                    return pathes[1:]+(d,)
+                    return [ds[e] for e in pathes[1:]+(d,)]
                 if new_array in visited:
                     continue
                 stack.insert(0, (new_array, new_anchor, pathes+(d,)))
@@ -89,6 +91,7 @@ class Maze(object):
     LEFT = 1
     RIGHT = 2
     DOWN = 3
+    DIRECTIONS = {'UP': UP, 'LEFT': LEFT, 'RIGHT': RIGHT, 'DOWN': DOWN}
 
     def __init__(self, print_frame=True):
         self.target = list('12345678 ')
@@ -107,6 +110,8 @@ class Maze(object):
         self.steps = 0
 
     def move(self, direction):
+        if isinstance(direction, basestring):
+            direction = Maze.DIRECTIONS[direction.upper()]
         dest = None
         if direction == Maze.UP:
             dest = self.up()
