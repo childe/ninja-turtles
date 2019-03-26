@@ -5,53 +5,6 @@ import time
 import curses
 import random
 import argparse
-import logging
-import logging.config
-
-
-def initlog(level='', log="-", disable_existing_loggers=True):
-    level = getattr(logging, level.upper())
-    log_format = '[%(asctime)s] %(levelname)s %(name)s %(pathname)s %(lineno)d [%(funcName)s] %(message)s'
-
-    config = {
-        "version": 1,
-        "disable_existing_loggers": disable_existing_loggers,
-        "formatters": {
-            "custom": {
-                "format": log_format
-            }
-        },
-        "handlers": {
-        },
-        'root': {
-            'level': level,
-            'handlers': ['console']
-        }
-    }
-    console = {
-        "class": "logging.StreamHandler",
-        "level": "DEBUG",
-        "formatter": 'custom',
-        "stream": "ext://sys.stderr"
-    }
-    file_handler = {
-        "class": "logging.handlers.RotatingFileHandler",
-        "level": "DEBUG",
-        "formatter": 'custom',
-        "filename": log,
-        "maxBytes": 10*1000**2,  # 10M
-        "backupCount": 5,
-        "encoding": "utf8"
-    }
-    if log == "-":
-        config["handlers"]["console"] = console
-        config["root"]["handlers"] = ["console"]
-    else:
-        config["handlers"]["file_handler"] = file_handler
-        config["root"]["handlers"] = ["file_handler"]
-    logging.config.dictConfig(config)
-# end initlog
-
 
 class MazeSolution(object):
 
@@ -256,14 +209,8 @@ class Maze(object):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-l", default="-", help="log file")
-    parser.add_argument("--level", default="info")
-    parser.add_argument("--disable-existing-loggers", dest='feature', action='store_true')
     parser.add_argument("--print-frame", action='store_true')
-    parser.set_defaults(disable_existing_loggers=True)
     args = parser.parse_args()
-
-    initlog(level=args.level, log=args.l, disable_existing_loggers=args.disable_existing_loggers)
 
     # ms = MazeSolution('1234567 8', 7)
     # print(ms.find_solution())
