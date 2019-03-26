@@ -251,7 +251,7 @@ class Maze(object):
             self.move(p)
             self.steps += 1
             self.print_maze()
-            curses.delay_output(100)
+            curses.delay_output(500)
 
 
 def main():
